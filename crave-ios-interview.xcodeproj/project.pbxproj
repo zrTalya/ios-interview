@@ -13,6 +13,7 @@
 		8A0B4E951C71E26900FC2340 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A0B4E931C71E26900FC2340 /* Main.storyboard */; };
 		8A0B4E971C71E26900FC2340 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A0B4E961C71E26900FC2340 /* Assets.xcassets */; };
 		8A0B4E9A1C71E26900FC2340 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A0B4E981C71E26900FC2340 /* LaunchScreen.storyboard */; };
+		8A0B4EA31C71E28100FC2340 /* HorizontalTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A0B4EA21C71E28100FC2340 /* HorizontalTableView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		8A0B4E961C71E26900FC2340 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A0B4E991C71E26900FC2340 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A0B4E9B1C71E26900FC2340 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8A0B4EA11C71E28100FC2340 /* HorizontalTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalTableView.h; sourceTree = "<group>"; };
+		8A0B4EA21C71E28100FC2340 /* HorizontalTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalTableView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,8 @@
 			children = (
 				8A0B4E8D1C71E26900FC2340 /* AppDelegate.h */,
 				8A0B4E8E1C71E26900FC2340 /* AppDelegate.m */,
+				8A0B4EA11C71E28100FC2340 /* HorizontalTableView.h */,
+				8A0B4EA21C71E28100FC2340 /* HorizontalTableView.m */,
 				8A0B4E901C71E26900FC2340 /* ViewController.h */,
 				8A0B4E911C71E26900FC2340 /* ViewController.m */,
 				8A0B4E931C71E26900FC2340 /* Main.storyboard */,
@@ -150,6 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A0B4E921C71E26900FC2340 /* ViewController.m in Sources */,
+				8A0B4EA31C71E28100FC2340 /* HorizontalTableView.m in Sources */,
 				8A0B4E8F1C71E26900FC2340 /* AppDelegate.m in Sources */,
 				8A0B4E8C1C71E26900FC2340 /* main.m in Sources */,
 			);
