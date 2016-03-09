@@ -27,6 +27,8 @@ The end result of this task should be a Horizontal TableView (the one already pr
 
 The only file that needs to be implemented is the HorizontalTableView.m but you can also edit the HorizontalTableView.h
 
+![alt tag](https://github.com/vodio-labs/ios-interview/blob/master/final_result.png)
+
 
 
 
