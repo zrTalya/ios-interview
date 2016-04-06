@@ -10,14 +10,20 @@
 
 #define SEPARATOR_WIDTH 1
 #define DEFAULT_CELL_WIDTH 100
+#define DEFAULT_CELLS_IN_ROW  (([[UIScreen mainScreen] bounds].size.width)/DEFAULT_CELL_WIDTH )
 
 
 
 @implementation HorizontalTableView
 	UIScrollView *scrollView;
+	NSMutableArray* displayedCellsArr;
+	UILabel* hiddenCell;
+
+
+	int currCell;
 
 - (UIView*)dequeueCell{
-    return nil;
+		return hiddenCell ;
 }
 
 
@@ -29,42 +35,61 @@
 	scrollView.showsHorizontalScrollIndicator = true;
 	scrollView.alwaysBounceHorizontal=true;
 	scrollView.delegate = self;
-
+	
 	[self addSubview:scrollView];
-	int currX = 0;
+	 int currX = 0;
+	displayedCellsArr = [[NSMutableArray alloc]init];
+	UIView *myLabel;
+	for (int i=0; i < DEFAULT_CELLS_IN_ROW;i++){
+		
+		myLabel = [_dataSource horizontalScrollView:self cellForIndex:i];
+		myLabel.frame = CGRectMake(currX, 0, DEFAULT_CELL_WIDTH, self.frame.size.height);
+		[self addSubview:myLabel];
+		[displayedCellsArr addObject:myLabel];
+		
+		[scrollView addSubview:myLabel];
+		currX+=DEFAULT_CELL_WIDTH;
 
-	for (int i=0; i<cellNum;i++){
 		
-		UIView* currCell = [[UIView alloc] initWithFrame:CGRectMake(currX, 0, DEFAULT_CELL_WIDTH, self.frame.size.height)];
-		UIView *myLabel = [_dataSource horizontalScrollView:self cellForIndex:i];
-		myLabel.frame =CGRectMake(0, 0,DEFAULT_CELL_WIDTH, self.frame.size.height);
-		[currCell addSubview:myLabel];
+	}
+	currCell = 0;
+
+
+}
+
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	//get current first cell
+	int cellNum = (scrollView.contentOffset.x - ((int)scrollView.contentOffset.x % DEFAULT_CELL_WIDTH))/ DEFAULT_CELL_WIDTH;
+	
+	
+	if (cellNum > currCell){
+		//means first cell is hidden, and we will load new cell
+		hiddenCell = (UILabel*)[displayedCellsArr objectAtIndex:0];
+		[displayedCellsArr removeObjectAtIndex:0];
+
+
+		[_dataSource horizontalScrollView:self cellForIndex:cellNum+DEFAULT_CELLS_IN_ROW];
+		hiddenCell.frame =CGRectMake(((UILabel*)[displayedCellsArr objectAtIndex:displayedCellsArr.count-1]).frame.origin.x+DEFAULT_CELL_WIDTH, 0,DEFAULT_CELL_WIDTH, self.frame.size.height);
 		
-		[scrollView addSubview:currCell];
-		currX += DEFAULT_CELL_WIDTH;
+		[displayedCellsArr insertObject:hiddenCell atIndex:displayedCellsArr.count];
+		currCell = cellNum;
+	}
+	else if ((cellNum < currCell)&&(cellNum>0)){
+		//means last cell is hidden, and we will load new cell
+		hiddenCell = (UILabel*)[displayedCellsArr objectAtIndex:displayedCellsArr.count-1];
+		[displayedCellsArr removeObjectAtIndex:displayedCellsArr.count-1];
 		
+		
+		[_dataSource horizontalScrollView:self cellForIndex:cellNum-1];
+		hiddenCell.frame =CGRectMake(((UILabel*)[displayedCellsArr objectAtIndex:0]).frame.origin.x-DEFAULT_CELL_WIDTH, 0,DEFAULT_CELL_WIDTH, self.frame.size.height);
+		
+		[displayedCellsArr insertObject:hiddenCell atIndex:0];
+		currCell = cellNum;
 	}
 }
 
-
--(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
-	NSLog(@"Did begin decelerating");
-
-}
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-	NSLog(@"Did begin dragging");
-}
-
-
-- (void)setContentOffset:(CGPoint)contentOffset animated:(BOOL)animated {
-	CGPoint newOffset = CGPointMake(0, contentOffset.x);
-	[scrollView setContentOffset:newOffset animated:animated];
-}
-
-- (void)setContentOffset:(CGPoint)contentOffset {
-	CGPoint newOffset = CGPointMake(0, contentOffset.x);
-	[scrollView setContentOffset:newOffset];
-}
 
 
 
