@@ -60,34 +60,40 @@
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	//get current first cell
+	//get current first cell and last
 	int cellNum = (scrollView.contentOffset.x - ((int)scrollView.contentOffset.x % DEFAULT_CELL_WIDTH))/ DEFAULT_CELL_WIDTH;
+	int lastCellNum = ceil((scrollView.contentOffset.x + scrollView.frame.size.width) / DEFAULT_CELL_WIDTH);
 	
+	NSLog(@"scrollX: %f, cellNum: %d, lastCellNum: %d", scrollView.contentOffset.x, cellNum, lastCellNum);
 	
-	if (cellNum > currCell){
+	if ((cellNum > currCell) && (currCell < [_dataSource horizontalScrollViewNumberOfCells:self])){
 		//means first cell is hidden, and we will load new cell
-		hiddenCell = (UILabel*)[displayedCellsArr objectAtIndex:0];
+		hiddenCell = [displayedCellsArr objectAtIndex:0];
 		[displayedCellsArr removeObjectAtIndex:0];
 
 
-		[_dataSource horizontalScrollView:self cellForIndex:cellNum+DEFAULT_CELLS_IN_ROW];
-		hiddenCell.frame =CGRectMake(((UILabel*)[displayedCellsArr objectAtIndex:displayedCellsArr.count-1]).frame.origin.x+DEFAULT_CELL_WIDTH, 0,DEFAULT_CELL_WIDTH, self.frame.size.height);
+		UIView* cell = [_dataSource horizontalScrollView:self cellForIndex:cellNum+DEFAULT_CELLS_IN_ROW];
+		cell.frame =CGRectMake(((UIView*)[displayedCellsArr objectAtIndex:displayedCellsArr.count-1]).frame.origin.x+DEFAULT_CELL_WIDTH, 0,DEFAULT_CELL_WIDTH, self.frame.size.height);
 		
-		[displayedCellsArr insertObject:hiddenCell atIndex:displayedCellsArr.count];
+		[displayedCellsArr insertObject:cell atIndex:displayedCellsArr.count];
+		
 		currCell = cellNum;
 	}
-	else if ((cellNum < currCell)&&(cellNum>0)){
+	else if ((cellNum < currCell)&&(currCell>0)){
 		//means last cell is hidden, and we will load new cell
-		hiddenCell = (UILabel*)[displayedCellsArr objectAtIndex:displayedCellsArr.count-1];
+		hiddenCell = [displayedCellsArr objectAtIndex:displayedCellsArr.count - 1];
 		[displayedCellsArr removeObjectAtIndex:displayedCellsArr.count-1];
 		
 		
-		[_dataSource horizontalScrollView:self cellForIndex:cellNum-1];
-		hiddenCell.frame =CGRectMake(((UILabel*)[displayedCellsArr objectAtIndex:0]).frame.origin.x-DEFAULT_CELL_WIDTH, 0,DEFAULT_CELL_WIDTH, self.frame.size.height);
+		UIView* cell = [_dataSource horizontalScrollView:self cellForIndex:cellNum];
+		cell.frame = CGRectMake(cellNum*DEFAULT_CELL_WIDTH, 0, DEFAULT_CELL_WIDTH, self.frame.size.height);
 		
-		[displayedCellsArr insertObject:hiddenCell atIndex:0];
+		[displayedCellsArr insertObject:cell atIndex:0];
+		
 		currCell = cellNum;
 	}
+
+	
 }
 
 
