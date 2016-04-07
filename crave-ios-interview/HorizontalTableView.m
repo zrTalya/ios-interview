@@ -66,7 +66,7 @@
 	
 	NSLog(@"scrollX: %f, cellNum: %d, lastCellNum: %d", scrollView.contentOffset.x, cellNum, lastCellNum);
 	
-	if ((cellNum > currCell) && (currCell < [_dataSource horizontalScrollViewNumberOfCells:self])){
+	while ((cellNum > currCell) && (currCell < [_dataSource horizontalScrollViewNumberOfCells:self])){
 		//means first cell is hidden, and we will load new cell
 		hiddenCell = [displayedCellsArr objectAtIndex:0];
 		[displayedCellsArr removeObjectAtIndex:0];
@@ -77,9 +77,9 @@
 		
 		[displayedCellsArr insertObject:cell atIndex:displayedCellsArr.count];
 		
-		currCell = cellNum;
+		currCell ++;
 	}
-	else if ((cellNum < currCell)&&(currCell>0)){
+	while ((cellNum < currCell)&&(currCell>0)){
 		//means last cell is hidden, and we will load new cell
 		hiddenCell = [displayedCellsArr objectAtIndex:displayedCellsArr.count - 1];
 		[displayedCellsArr removeObjectAtIndex:displayedCellsArr.count-1];
@@ -90,7 +90,7 @@
 		
 		[displayedCellsArr insertObject:cell atIndex:0];
 		
-		currCell = cellNum;
+		currCell --;
 	}
 
 	
