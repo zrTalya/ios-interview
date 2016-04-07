@@ -17,7 +17,7 @@
 @implementation HorizontalTableView
 	UIScrollView *scrollView;
 	NSMutableArray* displayedCellsArr;
-	UILabel* hiddenCell;
+	UIView* hiddenCell;
 
 
 	int currCell;
